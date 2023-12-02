@@ -1,7 +1,7 @@
 package com.scaler.expensemanagement.models;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.scaler.expensemanagement.enums.SettleStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +23,6 @@ public class Expense extends BaseModel {
     private List<UserExpense> lenders;
     @OneToMany(mappedBy = "expense")
     private List<UserExpense> owers;
+    @Enumerated(EnumType.STRING)
+    private SettleStatus status;
 }
