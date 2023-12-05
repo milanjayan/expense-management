@@ -1,7 +1,10 @@
 package com.scaler.expensemanagement.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.scaler.expensemanagement.enums.ExpenseType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "user_expenses")
+@Builder
+@AllArgsConstructor
 public class UserExpense extends BaseModel {
     @ManyToOne
     private User user;
@@ -18,5 +23,6 @@ public class UserExpense extends BaseModel {
     private ExpenseType expenseType;
     @ManyToOne
     @JoinColumn(name = "expense_id")
+    @JsonBackReference
     private Expense expense;
 }

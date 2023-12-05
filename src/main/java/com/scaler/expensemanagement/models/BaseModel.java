@@ -2,6 +2,8 @@ package com.scaler.expensemanagement.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,6 +12,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
+@SuperBuilder(toBuilder = true)
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class) //for using auto generated created and updated date
 abstract class BaseModel {
 

@@ -33,7 +33,6 @@ public class ExpenseManagementApplication implements CommandLineRunner {
         while(true) {
             System.out.println("Enter input: ");
             String input = scanner.nextLine();
-            scanner.nextLine();
             commandExecutor.execute(input);
         }
     }
