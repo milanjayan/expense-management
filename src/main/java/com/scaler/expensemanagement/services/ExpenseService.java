@@ -2,6 +2,7 @@ package com.scaler.expensemanagement.services;
 
 import com.scaler.expensemanagement.dtos.CreateExpenseRequest;
 import com.scaler.expensemanagement.dtos.CreateUserExpenseRequest;
+import com.scaler.expensemanagement.dtos.SettlementDto;
 import com.scaler.expensemanagement.enums.ExpenseType;
 import com.scaler.expensemanagement.enums.SettleStatus;
 import com.scaler.expensemanagement.exceptions.*;
@@ -9,7 +10,10 @@ import com.scaler.expensemanagement.models.Expense;
 import com.scaler.expensemanagement.models.User;
 import com.scaler.expensemanagement.models.UserExpense;
 import com.scaler.expensemanagement.repositories.ExpenseRepository;
+import com.scaler.expensemanagement.strategies.settlementstrategies.SettlementStrategy;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -20,6 +24,9 @@ import java.util.List;
 public class ExpenseService {
     private ExpenseRepository expenseRepository;
     private UserService userService;
+    @Autowired
+    @Qualifier("greedySettlementStrategy")
+    private SettlementStrategy settlementStrategy;
 
     public Expense getExpense(Long id) {
         return expenseRepository.findById(id)
@@ -55,5 +62,10 @@ public class ExpenseService {
 
     public Expense save(Expense expense) {
         return expenseRepository.save(expense);
+    }
+
+    public List<SettlementDto> settleUp(Long expenseId) {
+        Expense expense = getExpense(expenseId);
+        return settlementStrategy.settle(List.of(expense));
     }
 }

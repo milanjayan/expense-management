@@ -27,10 +27,10 @@ public class Expense extends BaseModel {
     @JsonManagedReference
     private List<User> users;
     @JsonManagedReference
-    @OneToMany(mappedBy = "expense")
+    @OneToMany(mappedBy = "expense", fetch = FetchType.EAGER)
     @Where(clause = "expense_type = 'LEND'")
     private List<UserExpense> lenders;
-    @OneToMany(mappedBy = "expense")
+    @OneToMany(mappedBy = "expense", fetch = FetchType.EAGER)
     @JsonManagedReference
     @Where(clause = "expense_type = 'OWE'")
     private List<UserExpense> owers;

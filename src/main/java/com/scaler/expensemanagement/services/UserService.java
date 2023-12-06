@@ -16,7 +16,7 @@ import java.util.Optional;
 public class UserService {
 
     private UserRepository userRepository;
-
+    private BcryptEncoder bcryptEncoder;
     public User getUser(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User with id: "+id+" not found"));
@@ -28,11 +28,12 @@ public class UserService {
 
     public User createUser(CreateUserRequest request) {
         validate(request);
+        String encodedPassword = bcryptEncoder.encode(request.getPassword());
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
-                .password(request.getPassword())
+                .password(encodedPassword)
                 .build();
         return userRepository.save(user);
     }
